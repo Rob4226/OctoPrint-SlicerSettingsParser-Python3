@@ -1,3 +1,5 @@
+This fork is updated to work with Python 3
+
 # OctoPrint-SlicerSettingsParser
 
 **NOTE: Only supports Slic3r, Simplify3D, and Cura currently; suggest more in issues; contributions welcome!**

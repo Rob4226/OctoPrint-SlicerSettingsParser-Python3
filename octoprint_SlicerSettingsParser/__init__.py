@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import absolute_import
+
 
 import octoprint.plugin
 import octoprint.filemanager
@@ -74,7 +74,7 @@ class SlicerSettingsParserPlugin(
 		file = open(self._storage_interface.path_on_disk(path))
 
 		slicer_settings = dict()
-		regexes = map(lambda x: re.compile(x), self._settings.get(["regexes"]))
+		regexes = [re.compile(x) for x in self._settings.get(["regexes"])]
 
 		for line in file:
 			for regex in regexes:
@@ -93,30 +93,32 @@ class SlicerSettingsParserPlugin(
 
 		# self._logger.info(self._storage_interface.get_metadata(path))
 
-        def get_update_information(self):
-                return dict(
-                        SlicerSettingsParser=dict(
-                                displayName="SlicerSettingsParser Plugin",
-                                displayVersion=self._plugin_version,
+        # def get_update_information(self):
+        #         return dict(
+        #                 SlicerSettingsParser=dict(
+        #                         displayName="SlicerSettingsParser Plugin",
+        #                         displayVersion=self._plugin_version,
 
-                                # version check: github repository
-                                type="github_release",
-                                user="tjjfvi",
-                                repo="OctoPrint-SlicerSettingsParser",
-                                current=self._plugin_version,
+        #                         # version check: github repository
+        #                         type="github_release",
+        #                         user="tjjfvi",
+        #                         repo="OctoPrint-SlicerSettingsParser",
+        #                         current=self._plugin_version,
 
-                                # update method: pip
-                                pip="https://github.com/tjjfvi/OctoPrint-SlicerSettingsParser/archive/{target_version}.zip"
-                        )
-                )
+        #                         # update method: pip
+        #                         pip="https://github.com/tjjfvi/OctoPrint-SlicerSettingsParser/archive/{target_version}.zip"
+        #                 )
+        #         )
 
 __plugin_name__ = "SlicerSettingsParser"
+__plugin_pythoncompat__ = ">=2.7,<4"
+__plugin_implementation__ = SlicerSettingsParserPlugin()
 
-def __plugin_load__():
-	global __plugin_implementation__
-	__plugin_implementation__ = SlicerSettingsParserPlugin()
+# def __plugin_load__():
+# 	global __plugin_implementation__
+# 	__plugin_implementation__ = SlicerSettingsParserPlugin()
 
-	global __plugin_hooks__
-	__plugin_hooks__ = {
-		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
-	}
+# 	global __plugin_hooks__
+# 	__plugin_hooks__ = {
+# 		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+# 	}
